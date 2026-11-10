@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>PK</title>
+<meta name="theme-color" content="#15161a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PK">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="icons/favicon-64.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#15161a;--cream:#f5ecda;--muted:#c9bfae;--sodium:#f3b23c;--red:#d8282f;--field:#22242a;--line:#3a3c44}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--cream);font-family:Barlow,system-ui,sans-serif;-webkit-text-size-adjust:100%}
+main{min-height:100%;display:flex;align-items:center;justify-content:center;padding:calc(env(safe-area-inset-top,0px) + 24px) 16px calc(env(safe-area-inset-bottom,0px) + 24px)}
+.card{width:100%;max-width:340px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.card img{width:104px;height:104px;border-radius:24px;box-shadow:0 10px 28px rgba(0,0,0,.5)}
+h1{margin:6px 0 0;font-family:Bungee,'Arial Black',sans-serif;font-weight:400;font-size:48px;line-height:1;text-shadow:0 4px 0 var(--red)}
+p{margin:0;font-size:16px;line-height:1.45;color:var(--muted)}
+form{width:100%;display:flex;flex-direction:column;gap:10px;margin-top:6px}
+label{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left}
+input{width:100%;font:500 19px/1.2 ui-monospace,Menlo,monospace;letter-spacing:.06em;text-align:center;color:var(--cream);background:var(--field);border:1px solid var(--line);border-radius:12px;padding:14px 12px;outline:none}
+input:focus{border-color:var(--sodium)}
+button{appearance:none;border:0;border-radius:14px;padding:15px 18px;font:400 17px/1 Bungee,'Arial Black',sans-serif;color:#1a1408;background:var(--sodium);box-shadow:0 4px 0 #a8761f;cursor:pointer}
+button:active{transform:translateY(2px);box-shadow:0 2px 0 #a8761f}
+button[disabled]{opacity:.6}
+#msg{min-height:22px;font-size:15px}
+#msg.err{color:#ff8a80}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main>
+  <div class="card">
+    <img src="icons/icon-192.png" alt="">
+    <h1>PK</h1>
+    <p id="lede">Parkdale is invite only. Open the invite link you were sent, or enter the code.</p>
+    <form id="form" autocomplete="off" hidden>
+      <label for="code">Access code</label>
+      <input id="code" inputmode="text" autocapitalize="characters" spellcheck="false" placeholder="ABCD-EFGH-JKLM-NPQR" maxlength="24">
+      <button id="go" type="submit">Let me in</button>
+    </form>
+    <p id="msg" role="status"></p>
+  </div>
+</main>
+<script>
+(function(){
+  var ALPHA="ABCDEFGHJKLMNPQRSTUVWXYZ23456789", KEY="pkCode", ITER=250000;
+  var el=function(id){return document.getElementById(id)};
+  function clean(v){var c=String(v||"").toUpperCase().replace(/[^A-Z0-9]/g,"");if(c.length!==16)return null;for(var i=0;i<16;i++)if(ALPHA.indexOf(c[i])<0)return null;return c}
+  function pretty(c){return c.match(/.{4}/g).join("-")}
+  function get(){try{return localStorage.getItem(KEY)}catch(e){return null}}
+  function put(v){try{v?localStorage.setItem(KEY,v):localStorage.removeItem(KEY)}catch(e){}}
+  function say(t,err){var m=el("msg");m.textContent=t;m.className=err?"err":""}
+  var bin=null;
+  function fetchBin(){if(!bin)bin=fetch("game.bin",{cache:"no-cache"}).then(function(r){if(!r.ok)throw new Error("net");return r.arrayBuffer()});return bin}
+
+  async function unlock(code){
+    var buf=new Uint8Array(await fetchBin());
+    if(String.fromCharCode(buf[0],buf[1],buf[2])!=="PK1")throw new Error("format");
+    var salt=buf.slice(3,19), iv=buf.slice(19,31), ct=buf.slice(31);
+    var base=await crypto.subtle.importKey("raw",new TextEncoder().encode(code),"PBKDF2",false,["deriveKey"]);
+    var key=await crypto.subtle.deriveKey({name:"PBKDF2",salt:salt,iterations:ITER,hash:"SHA-256"},base,{name:"AES-GCM",length:256},false,["decrypt"]);
+    var gz;
+    try{gz=await crypto.subtle.decrypt({name:"AES-GCM",iv:iv},key,ct)}catch(e){var x=new Error("code");throw x}
+    var stream=new Blob([gz]).stream().pipeThrough(new DecompressionStream("gzip"));
+    return await new Response(stream).text();
+  }
+
+  async function tryCode(code,fromSaved){
+    el("go").disabled=true;say("Opening Parkdale");
+    try{
+      var html=await unlock(code);
+      put(code);
+      if(location.hash)history.replaceState(null,"",location.pathname);
+      document.open();document.write(html);document.close();
+    }catch(e){
+      el("go").disabled=false;
+      if(e.message==="code"){put(null);el("form").hidden=false;say(fromSaved?"That code has changed. Enter the new one.":"That code doesn't open PK.",true)}
+      else if(e.message==="net"){el("form").hidden=false;say("Couldn't load the game. Check your connection and try again.",true)}
+      else{el("form").hidden=false;say("This browser can't open PK. Try Safari or Chrome, updated.",true)}
+    }
+  }
+
+  el("form").addEventListener("submit",function(ev){ev.preventDefault();var c=clean(el("code").value);
+    if(!c){say("The code is 16 letters and numbers, like ABCD-EFGH-JKLM-NPQR",true);return}tryCode(c,false)});
+  el("code").addEventListener("blur",function(){var c=clean(this.value);if(c)this.value=pretty(c)});
+
+  if(!window.crypto||!crypto.subtle||typeof DecompressionStream==="undefined"){say("This browser can't open PK. Try Safari or Chrome, updated.",true);return}
+  var m=location.hash.match(/join=([A-Za-z0-9-]+)/), j=m&&clean(m[1]), saved=clean(get());
+  if(j)tryCode(j,false);
+  else if(saved){el("lede").textContent="Welcome back.";tryCode(saved,true)}
+  else el("form").hidden=false;
+})();
+</script>
+</body>
+</html>

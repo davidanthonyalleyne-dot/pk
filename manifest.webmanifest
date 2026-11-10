@@ -1,0 +1,16 @@
+{
+  "name": "PK",
+  "short_name": "PK",
+  "description": "Walk Parkdale as Da Mayor, with Yuki on the leash.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "any",
+  "background_color": "#15161a",
+  "theme_color": "#15161a",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
