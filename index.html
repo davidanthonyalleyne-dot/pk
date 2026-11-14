@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<script src="diag.js" data-app="pk"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>PK</title>
 <meta name="theme-color" content="#15161a">
@@ -79,6 +80,7 @@ button[disabled]{opacity:.6}
       var html=await unlock(code);
       put(code);
       if(location.hash)history.replaceState(null,"",location.pathname);
+      html=html.replace(/<head[^>]*>/i,function(m){return m+'<script src="diag.js" data-app="pk"><\/script>'});try{delete window.__diag}catch(e){}
       document.open();document.write(html);document.close();
     }catch(e){
       el("go").disabled=false;
