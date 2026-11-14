@@ -38,3 +38,7 @@ Commit the new `game.bin`. Every game update is published the same way. Everyone
 ## 4. Add it to the home screen
 
 On iPhone open the link in Safari, tap Share, then **Add to Home Screen**. It gets the sunset and CN Tower icon and opens full screen. On Android use Chrome's menu and **Add to Home screen**.
+
+## Credits
+
+Buildings (3D Massing), street trees, street light and signal poles, traffic signals and pedestrian counts come from City of Toronto Open Data under the Open Government Licence – Toronto. Live vehicle positions come from the TTC's public vehicle feed (via Umo). Streets are from OpenStreetMap. The driving, signal and live-transit logic are adapted from [Slop Toronto](https://github.com/johnfewell/slop-toronto) by Mr.doob and John Fewell, MIT licence.
