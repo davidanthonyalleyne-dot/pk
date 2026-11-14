@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PK overview</title>
+<style>
+@font-face{font-family:'Bungee';font-weight:400;src:url(fonts/bungee-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Barlow';font-weight:400;src:url(fonts/barlow-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Barlow';font-weight:600;src:url(fonts/barlow-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:'Barlow Condensed';font-weight:600;src:url(fonts/barlow-condensed-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:'Barlow Condensed';font-weight:700;src:url(fonts/barlow-condensed-latin-700-normal.woff2) format('woff2')}
+:root{--ink:#15171b;--bg:#15161a;--field:#22242a;--line:#3a3c44;--cream:#f5ecda;--muted:#c9bfae;--sodium:#f3b23c;--streetcar:#d8282f;
+  --display:'Bungee','Arial Black',Impact,sans-serif;--body:'Barlow',system-ui,-apple-system,sans-serif;--cond:'Barlow Condensed','Arial Narrow',sans-serif}
+@page{size:letter;margin:0}
+*{box-sizing:border-box}
+html,body{margin:0;background:#0b0c0e;color:var(--cream);font-family:var(--body);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{width:8.5in;height:11in;margin:0 auto 24px;background:var(--bg);padding:.55in .6in .5in;position:relative;overflow:hidden;break-after:page;page-break-after:always;display:flex;flex-direction:column}
+.page:last-child{break-after:auto;page-break-after:auto}
+@media print{body{background:var(--bg)}.page{margin:0}}
+header.top{display:flex;align-items:center;gap:18px}
+header.top img{width:74px;height:74px;border-radius:17px}
+h1{font-family:var(--display);font-weight:400;font-size:52px;line-height:1;margin:0;text-shadow:0 4px 0 var(--streetcar)}
+.tag{font-family:var(--cond);font-weight:700;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+.tag i{font-style:normal;background:var(--streetcar);color:#fff;padding:1px 6px;margin-right:7px;border-radius:3px}
+.ver{margin-left:auto;text-align:right;font-family:var(--cond);font-weight:600;font-size:14px;letter-spacing:.06em;color:var(--muted);line-height:1.5}
+.ver b{color:var(--sodium);font-weight:700}
+.intro{font-size:15px;line-height:1.5;margin:20px 0 18px;color:var(--cream)}
+.shots{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.shot img{width:100%;border-radius:14px;border:1px solid var(--line);display:block}
+.shot b{display:block;font-family:var(--cond);font-weight:700;font-size:16px;letter-spacing:.06em;text-transform:uppercase;color:var(--sodium);margin:9px 0 3px}
+.shot p{margin:0;font-size:12.5px;line-height:1.42;color:var(--muted)}
+.glance{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:auto}
+.glance div{background:var(--field);border:1px solid var(--line);border-radius:12px;padding:11px 12px}
+.glance b{display:block;font-family:var(--display);font-weight:400;font-size:24px;color:var(--sodium);line-height:1.1}
+.glance span{font-size:12px;color:var(--muted);line-height:1.35;display:block;margin-top:4px}
+h2{font-family:var(--cond);font-weight:700;font-size:17px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 4px;color:var(--cream);display:flex;align-items:center;gap:8px}
+h2::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--streetcar);flex:none}
+.cols{column-count:2;column-gap:26px;margin-top:16px}
+.cols section{break-inside:avoid;margin-bottom:11px}
+.p2 .shot img{height:3.15in;object-fit:cover;object-position:top}
+.cols section p{margin:0;font-size:12.5px;line-height:1.45;color:var(--muted)}
+.cols section p strong{color:var(--cream);font-weight:600}
+.lbl{font-family:var(--cond);font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--sodium);margin:0 0 10px}
+h3{font-family:var(--display);font-weight:400;font-size:28px;margin:0 0 14px}
+table{width:100%;border-collapse:collapse;font-size:12px;line-height:1.35;margin-bottom:16px}
+th{font-family:var(--cond);font-weight:700;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--sodium);text-align:left;padding:5px 7px;border-bottom:1px solid var(--line)}
+td{padding:5px 7px;border-bottom:1px solid rgba(245,236,218,.08);vertical-align:top;color:var(--muted)}
+td:first-child{color:var(--cream);font-weight:600;white-space:nowrap}
+.where{background:var(--field);border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-size:12px;line-height:1.45;color:var(--muted)}
+.where p{margin:0 0 4px}.where p:last-child{margin:0}.where strong{color:var(--cream)}
+footer{position:absolute;left:.6in;right:.6in;bottom:.28in;display:flex;justify-content:space-between;font-family:var(--cond);font-weight:600;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#8d8578}
+@media screen and (max-width:820px){
+  .page{width:auto;height:auto;padding:22px 16px 48px;margin:0 0 12px;overflow:visible}
+  header.top{flex-wrap:wrap}.ver{margin-left:0;text-align:left;width:100%}
+  .shots{grid-template-columns:1fr 1fr}.glance{grid-template-columns:1fr 1fr;margin-top:20px}.cols{column-count:1}.p2 .shot img{height:auto}
+  table{font-size:12px;display:block;overflow-x:auto}footer{left:16px;right:16px;bottom:14px}
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+  <header class="top">
+    <img src="icon.png" alt="">
+    <div><h1>PK</h1><div class="tag"><i>501</i>Parkdale, Queen St W to the Ex</div></div>
+    <div class="ver">App <b>2026.11.14</b> (f7b5a14)<br>Document <b>1.0</b></div>
+  </header>
+  <p class="intro">PK is an open-world walk around Parkdale on your phone. You play Da Mayor with Yuki on the leash, running errands for the neighbours, riding the 501 and hunting down twelve PK stickers between Queen and the Dufferin Gate. The streets, houses and shops are built from real city data and sit on the real hills, and the neighbourhood follows what's actually happening outside: the weather in Parkdale right now, the sun and stars for today's date, and the real 501 streetcars on Queen. It's invite only and runs in Safari or Chrome.</p>
+  <div class="shots">
+    <div class="shot"><img src="shots/01-title.jpg" alt="PK title screen"><b>Head out</b><p>The title screen sets up the evening, shows how far into fall the trees are, and lists the controls for phone and computer.</p></div>
+    <div class="shot"><img src="shots/02-play.jpg" alt="Walking Yuki on Spencer Ave"><b>Walk Parkdale</b><p>Drag along the bottom to walk and across the top to look. The current errand sits top left, the map top right with the live weather under it.</p></div>
+    <div class="shot"><img src="shots/03-snow.jpg" alt="Snow settling on Spencer Ave"><b>Snow that stays</b><p>When there's snow on the ground in Parkdale it settles on roofs, lawns, sidewalks and tree tops, and the roads turn to grey slush.</p></div>
+  </div>
+  <div class="glance">
+    <div><b>12</b><span>PK stickers hidden between Queen and the Dufferin Gate</span></div>
+    <div><b>15 s</b><span>How often the real 501 positions are refreshed</span></div>
+    <div><b>15 min</b><span>How often the Parkdale weather is checked</span></div>
+    <div><b>1.5 km</b><span>Of Queen St W, Roncesvalles to Dufferin, plus the side streets to King</span></div>
+  </div>
+  <footer><span>PK · App 2026.11.14 · Doc 1.0</span><span>Updated November 14, 2026 · 1</span></footer>
+</div>
+
+<div class="page p2">
+  <div class="shots">
+    <div class="shot"><img src="shots/04-rain-night.jpg" alt="Rain at night on Spencer Ave"><b>Wet streets</b><p>Rain darkens the ground and the street lights shine back off it. It stays wet for a while after the rain stops, then dries out.</p></div>
+    <div class="shot"><img src="shots/05-settings.jpg" alt="Pause menu with Weather and Streetcars"><b>Your settings</b><p>The pause menu picks the buildings, day and night cycle, weather, streetcars, graphics, map style and sound.</p></div>
+    <div class="shot"><img src="shots/06-map.jpg" alt="The big map of Parkdale"><b>The map</b><p>Tap the corner map to open the big one. Drag to move, pinch to zoom, tilt it, and jump back to Da Mayor.</p></div>
+  </div>
+  <div class="cols">
+    <section><h2>Errands and stickers</h2><p>A short run of errands starts with coffee from The Abbott on Spencer or Larry's Place on Queen, and includes riding the 501 from Dufferin to Roncesvalles. After that it's free roam to find the rest of the twelve stickers, some of them down past King. Progress saves on the phone.</p></section>
+    <section><h2>Live weather</h2><p>Every 15 minutes PK checks the weather in Parkdale: temperature, cloud, wind, rain, snow, fog and thunder. Rain and snow fall around you, the leaves blow with the real wind, and people put up umbrellas. <strong>Snow on the ground</strong> comes from the real snow depth and melts off when it warms up. <strong>Wet streets</strong> follow rain now and the last three hours of it.</p></section>
+    <section><h2>Pick your own weather</h2><p>The Weather setting is Live by default. Clear, Rain and Snow lay that weather over Parkdale until you set it back to Live, so you can see snow in July.</p></section>
+    <section><h2>Live 501s</h2><p>With Streetcars on Live, the 501s on Queen are the real ones from the TTC's vehicle feed (and the 301 overnight). Each car carries on from its last report and stops at the stops. Stand at a stop and a red chip shows when the next cars are due each way. You can ride them. A car leaving Parkdale lets you off at Dufferin or Roncesvalles. Set Streetcars to Game for the made-up timetable, which also takes over if the feed can't be reached.</p></section>
+    <section><h2>Day, night and sky</h2><p>Day, dusk and night are a button tap away, or the cycle can run a whole day every hour or follow the real time. The sun follows Toronto's real path for today's date, the stars and constellations are in their true places, street lights and car lights come on after dark, and raccoons come out for the green bins.</p></section>
+    <section><h2>The neighbourhood</h2><p>Neighbours walk their dogs, traffic stops at the lights, buses and a garbage truck do their rounds, birds sing in the trees, and a Canada goose owns the Spencer lawns. The leaves keep falling while you play and while you're away.</p></section>
+    <section><h2>Privacy</h2><p>The game sits in the repo encrypted, and only the access code opens it. The code and your progress stay on your device. If something breaks, a short report of the error and the last few taps is sent so it can be fixed. It never includes game data.</p></section>
+    <section><h2>Known limits</h2><p>Live streetcars only appear between Roncesvalles and Dufferin, and a car at a layover in the feed sits still in the game too. The snow and wet look is on things that stay put, so moving cars and people stay clean.</p></section>
+  </div>
+  <footer><span>PK · App 2026.11.14 · Doc 1.0</span><span>Updated November 14, 2026 · 2</span></footer>
+</div>
+
+<div class="page">
+  <div class="lbl">PK · Technical setup</div>
+  <h3>Where it all comes from</h3>
+  <table>
+    <tr><th>Source or library</th><th>Version</th><th>What it does</th><th>Loaded from</th><th>Licence</th></tr>
+    <tr><td>three.js</td><td>r128</td><td>3D rendering: scene, materials, instancing, shaders</td><td>cdnjs.cloudflare.com</td><td>MIT</td></tr>
+    <tr><td>Bungee, Barlow, Barlow Condensed</td><td>Google Fonts</td><td>Title, body and HUD type</td><td>fonts.googleapis.com</td><td>OFL</td></tr>
+    <tr><td>OpenStreetMap</td><td>Baked in</td><td>Streets, crosswalks, shops, parks, the Classic buildings</td><td>Inside the game file</td><td>ODbL</td></tr>
+    <tr><td>City of Toronto 3D massing</td><td>Baked in</td><td>City data buildings, roof colours from the 2025 aerial</td><td>Inside the game file</td><td>OGL Toronto</td></tr>
+    <tr><td>AWS Terrain Tiles</td><td>Baked in</td><td>Real ground elevation on an 8 m grid</td><td>Inside the game file</td><td>Open data</td></tr>
+    <tr><td>Bright star positions</td><td>Baked in</td><td>Stars and constellations in their real places</td><td>Inside the game file</td><td>Public catalogue data</td></tr>
+    <tr><td>PK game code</td><td>2026.11.14</td><td>Everything else: characters, vehicles, errands, weather, snow and wet shaders, live 501s</td><td>game.bin (encrypted)</td><td>Written for PK</td></tr>
+  </table>
+  <table>
+    <tr><th>Integration</th><th>Used for</th><th>Details</th></tr>
+    <tr><td>Open-Meteo</td><td>Parkdale weather</td><td>api.open-meteo.com/v1/forecast at 43.6395, -79.4335: current temperature, weather code, cloud, wind, precipitation, snow depth, and the last 3 hours of precipitation. No key. Every 15 min.</td></tr>
+    <tr><td>TTC vehicle feed (Umo)</td><td>Live 501 and 301 positions</td><td>retro.umoiq.com publicJSONFeed, vehicleLocations for routes 501 and 301 (301 from 12:45 to 6 am). No key. Every 15 s while open. Data copyright TTC.</td></tr>
+    <tr><td>TTC predictions (Umo)</td><td>Next cars at a stop</td><td>Same feed, predictions by stop ID for route 501. Only while you stand at a Queen stop, at most every 30 s.</td></tr>
+    <tr><td>GitHub Pages</td><td>Hosting</td><td>davidanthonyalleyne-dot.github.io/pk serves the gate page, game.bin and version.json.</td></tr>
+    <tr><td>Web Crypto</td><td>The lock</td><td>The access code goes through PBKDF2 (SHA-256, 250,000 rounds) to an AES-256-GCM key that decrypts game.bin in the browser.</td></tr>
+    <tr><td>Med Med Firestore</td><td>Bug reports</td><td>diag.js sends script errors and dead taps, with the last 12 taps and screen size, to the diag collection. No game data.</td></tr>
+    <tr><td>localStorage</td><td>Saving on the device</td><td>pkCode (access code), pk-parkdale-v4 (errands and stickers), pk-settings, pk-map, pk-season-v1, pk-wx-v2 (last weather reading).</td></tr>
+  </table>
+  <div class="where">
+    <p><strong>On the device:</strong> the whole game, including the street data, rendering, traffic, people, weather effects and the streetcar matching. The real 501 positions are turned into points along Queen using the TTC's own stop positions matched to PK's cross streets.</p>
+    <p><strong>Network calls:</strong> three.js and the fonts at load, game.bin and version.json from GitHub Pages (version.json again every few minutes to offer updates), Open-Meteo, the TTC feed, and bug reports to Firestore.</p>
+    <p><strong>Regenerating this document:</strong> <code>PK_CODE=… node docs/overview/shoot.js</code> retakes the screenshots, then <code>node docs/overview/pdf.js</code> prints overview.pdf.</p>
+  </div>
+  <footer><span>PK · App 2026.11.14 · Doc 1.0</span><span>Updated November 14, 2026 · 3</span></footer>
+</div>
+
+</body>
+</html>
