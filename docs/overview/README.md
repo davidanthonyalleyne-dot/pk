@@ -2,10 +2,10 @@
 
 The two-page overview of PK plus its Technical setup page.
 
-Current: App 2026.11.14 (5031a69), Document 1.1.
+Current: App 2026.11.15, Document 1.2.
 
 Published page: https://claude.ai/artifact/7XTetauea4917zZQV839yi (artifact slug 34d7921a-9866-434f-9344-77669464c7f9)
-PDF copy in Google Drive: App Overviews folder, "PK Overview - App 2026.11.14 - Doc 1.1.pdf" (https://drive.google.com/drive/folders/1OlCKC8_z5Kcuee_786cEiDQqrXse1CVd)
+PDF copy in Google Drive: App Overviews folder, "PK Overview - App 2026.11.15 - Doc 1.2.pdf" (https://drive.google.com/drive/folders/1OlCKC8_z5Kcuee_786cEiDQqrXse1CVd)
 
 ## Regenerating
 
